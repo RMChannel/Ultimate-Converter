@@ -1,4 +1,3 @@
-import os
 numbers="1234567890"
 octalbin={
     "0":"000",
@@ -37,6 +36,18 @@ def insertbin():
                 break
             elif (i=="9"): return n
 
+def insertnum():
+    go=True
+    while go:
+        n=input()
+        try:
+            int(n)
+            go=False
+        except ValueError:
+            print("Caratteri non riconosciuti, riprovare")
+            go=True
+    return n
+
 def binseparator(n, bin):
     result=[]
     temp=""
@@ -71,3 +82,21 @@ def bintooctal(num):
                 break
             else: i2+=1
     return result
+
+def bintodec(num):
+    result=0
+    num2=""
+    for i in num: num2=i+num2
+    i2=0
+    for i in num2:
+        if i=="1": result=result+pow(2,i2)
+        i2+=1
+    return str(result)
+
+def dectobin(num):
+    result=""
+    num=int(num)
+    while num!=1:
+        result=str(num%2)+result
+        num=int(num/2)
+    return "1"+result
