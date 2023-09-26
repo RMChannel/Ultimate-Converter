@@ -27,7 +27,7 @@ esabin={
     "E":"1110",
     "F":"1111",
 }
-esachar=["1","2","3","4","5","6","7","8","9","0","A","B","C","D","E","F"]
+esachar=["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"]
 def insertoctal():
     octalnum=["8","9"]
     go=True
@@ -156,7 +156,6 @@ def dectooctal(num):
 def bintoexa(num):
     result=""
     num=binseparator(4,num)
-    print(num)
     for i in num:
         i2=0
         while True:
@@ -172,3 +171,27 @@ def exatobin(num):
     result=""
     for i in num: result=result+esabin[i]
     return result
+
+def dectoexa(num):
+    num=int(num)
+    result=""
+    while True:
+        result=esachar[int(num%16)]+result
+        if ((int(num/16))==0): break
+        num=num/16
+    return result
+
+def exatodec(num):
+    result=0
+    for i in num: result=(result*16)+esachar.index(i)
+    return str(result)
+
+def octtoexa(num):
+    num=octaltobin(num)
+    num=bintoexa(num)
+    return num
+
+def exatooct(num):
+    num=exatobin(num)
+    num=bintooctal(num)
+    return num

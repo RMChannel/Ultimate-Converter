@@ -11,7 +11,7 @@ while True:
     go=True
     #Funzione del menu e controllo del dato inserito
     while go:
-        firstbase=input("Benvenuto in Ultimate Converter V1.2\nScegli la base del numero iniziale:\n[1]Ottale\n[2]Binario\n[3]Decimale\n[4]Esadecimale\n")
+        firstbase=input("Benvenuto in Ultimate Converter V1.3\nScegli la base del numero iniziale:\n[1]Ottale\n[2]Binario\n[3]Decimale\n[4]Esadecimale\n")
         if (firstbase in numbers):
             if not(int(firstbase) in listofconvert):
                 print("Carattere non riconosciuto, rirpovare")
@@ -73,6 +73,12 @@ while True:
     #ESADECIMALE A BINARIO E VICEVERSA
     elif (firstbase==2 and secondbase==4): result=functions.bintoexa(num)
     elif (firstbase==4 and secondbase==2): result=functions.exatobin(num)
+    #DECIMALE A ESADECIMALE E VICEVERSA
+    elif (firstbase==3 and secondbase==4): result=functions.dectoexa(num)
+    elif (firstbase==4 and secondbase==3): result=functions.exatodec(num)
+    #OTTALE A ESADECIMALE E VICEVERSA
+    elif (firstbase==1 and secondbase==4): result=functions.octtoexa(num)
+    elif (firstbase==4 and secondbase==1): result=functions.exatooct(num)
     #OPZIONE DEMO
     else:
         print("Mi dispiace, opzione non ancora programmata")
