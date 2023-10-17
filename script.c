@@ -132,7 +132,6 @@ void inttoesa(int numint, char *numchar) {
 void bintoesa(char *numchar) {
     char temp[1000];
     memset(temp,0,1000);
-    for (int i=0;i<strlen(numchar);i++) printf("%c",numchar[i]);
     int result=0, i2=0, i3=0, i4=0;
     for (int i=strlen(numchar)-1; i>=0; i--) {
         if (numchar[i]=='1') result=result+(intpow(2,i2));
