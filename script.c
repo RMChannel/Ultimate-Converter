@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 int system(const char *command);
+const char esaover[2][16]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
 
 int intpow(int a, int b) {
     int result=1;
@@ -117,7 +118,6 @@ int octtoint(int numint) {
 
 
 void inttoesa(int numint, char *numchar) {
-    const char esaover[2][16]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
     while (numint>0) {
        int temp=numint%16;
        for (int i=strlen(numchar); i>=0; i--) {
@@ -130,9 +130,8 @@ void inttoesa(int numint, char *numchar) {
 
 
 void bintoesa(char *numchar) {
-    const char esaover[2][16]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
     char temp[1000];
-    temp[0]='\0';
+    memset(temp,0,1000);
     for (int i=0;i<strlen(numchar);i++) printf("%c",numchar[i]);
     int result=0, i2=0, i3=0, i4=0;
     for (int i=strlen(numchar)-1; i>=0; i--) {
@@ -154,14 +153,43 @@ void bintoesa(char *numchar) {
 }
 
 
+void esatobin(char *numchar) {
+    const char esabin[16][5]={"0000","0001","0010","0011","0100","0101","0110","0111","1000","1001","1010","1011","1100","1101","1110","1111"};
+    char temp[1000];
+    memset(temp,0,1000);
+    int i5=0;
+    for (int i2=0;i2<strlen(numchar);i2++) {
+        int i3=0;
+        while (numchar[i2]!=esaover[0][i3]) i3++;
+        for (int i4=0;i4<4;i4++) {
+            temp[i5]=esabin[i3][i4];
+            i5++;
+        }
+    }
+    memset(numchar,0,1000);
+    for (int i=0;i<strlen(temp);i++) numchar[i]=temp[i];
+}
+
+
+int esatoint(char *numchar) {
+    int result=0;
+    for (int i=0;i<strlen(numchar);i++) {
+        int i2=0;
+        while (numchar[i]!=esaover[0][i2]) i2++;
+        result=(result*16)+i2;
+    }
+    return result;
+}
+
+
 int main(void) {
     system("cls");
     char numchar[1000];
-    numchar[0]='\0';
+    memset(numchar,0,1000);
     int firstbase, secondbase, result;
     long int numint;
     const char listofconvert[4][12] = {"Ottale","Binario","Decimale","Esadecimale"};
-    printf("Benvenuto in Ultimate Converter V1.3\nScegli la base del numero iniziale:\n[1]Ottale\n[2]Binario\n[3]Decimale\n[4]Esadecimale\n");
+    printf("Benvenuto in Ultimate Converter V1.4\nScegli la base del numero iniziale:\n[1]Ottale\n[2]Binario\n[3]Decimale\n[4]Esadecimale\n");
     scanf("%d",&firstbase);
     printf("Scegli la base in cui covertire il numero:\n");
     for (int i=1; i<5; i++) {if (i!=firstbase) {printf("[%d]%s\n", i, listofconvert[(i-1)]);}}
@@ -189,15 +217,17 @@ int main(void) {
             case 2:
                 octaltobin(numint,numchar);
                 printf("Result= ");
-                for (int i=0;i<strlen(numchar);i++) {
-                    printf("%c",numchar[i]);
-                }
+                for (int i=0;i<strlen(numchar);i++) printf("%c",numchar[i]);
                 break;
             case 3:
-                result=octtoint(numint);
-                printf("Result= %d",result);
+                printf("Result= %d",octtoint(numint));
                 break;
             case 4:
+                octaltobin(numint,numchar);
+                binadd(numchar,4);
+                bintoesa(numchar);
+                printf("Result= ");
+                for (int i=0;i<strlen(numchar);i++) printf("%c",numchar[i]);
                 break;    
         }
     }
@@ -205,52 +235,50 @@ int main(void) {
         switch(secondbase) {
             case 1:
                 binadd(numchar,3);
-                result=bintooctal(numchar);
-                printf("Result= %d", result);
+                printf("Result= %d", bintooctal(numchar));
                 break;
             case 3:
-                result=bintoint(numchar);
-                printf("Result= %d",result);
+                printf("Result= %d",bintoint(numchar));
                 break;
             case 4:
                 binadd(numchar,4);
                 bintoesa(numchar);
                 printf("Result= ");
-                for (int i=0;i<strlen(numchar);i++) {
-                    printf("%c",numchar[i]);
-                }
+                for (int i=0;i<strlen(numchar);i++) printf("%c",numchar[i]);
                 break;    
         }
     }
     else if (firstbase==3) {
         switch(secondbase) {
             case 1:
-                result=inttooct(numint);
-                printf("Result= %d",result);
+                printf("Result= %d",inttooct(numint));
                 break;
             case 2:
                 inttobin(numint,numchar);
                 printf("Result= ");
-                for (int i=0;i<strlen(numchar);i++) {
-                    printf("%c",numchar[i]);
-                }
+                for (int i=0;i<strlen(numchar);i++) printf("%c",numchar[i]);
                 break;
             case 4:
                 inttoesa(numint,numchar);
                 printf("Result= ");
-                for (int i=0;i<strlen(numchar);i++) {
-                    printf("%c",numchar[i]);
-                }
+                for (int i=0;i<strlen(numchar);i++) printf("%c",numchar[i]);
                 break;    
         }
     }
     else if (firstbase==4) {
         switch(secondbase) {
             case 1:
+                esatobin(numchar);
+                binadd(numchar,3);
+                printf("Result= %d", bintooctal(numchar));
                 break;
             case 2:
+                esatobin(numchar);
+                printf("Result= ");
+                for (int i=0;i<(strlen(numchar));i++) printf("%c",numchar[i]);
                 break;
             case 3:
+                printf("Result= %d",esatoint(numchar));
                 break;        
         }
     }
