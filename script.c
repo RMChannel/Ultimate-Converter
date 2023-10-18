@@ -53,7 +53,6 @@ void octaltobin(int numint, char *numchar) {
             numchar[i]=octalconvert[temp][i];
         }
         numint=numint/10;
-        printf("%d %d\n", temp, numint);
         if (numint>0) {
             for (int i=strlen(numchar); i>=0; i--) {
                 numchar[(i+3)]=numchar[i];
@@ -132,7 +131,6 @@ void inttoesa(int numint, char *numchar) {
 void bintoesa(char *numchar) {
     char temp[1000];
     memset(temp,0,1000);
-    for (int i=0;i<strlen(numchar);i++) printf("%c",numchar[i]);
     int result=0, i2=0, i3=0, i4=0;
     for (int i=strlen(numchar)-1; i>=0; i--) {
         if (numchar[i]=='1') result=result+(intpow(2,i2));
@@ -183,103 +181,66 @@ int esatoint(char *numchar) {
 
 
 int main(void) {
-    system("cls");
-    char numchar[1000];
-    memset(numchar,0,1000);
-    int firstbase, secondbase, result;
+    int firstbase, secondbase, result, go=1, comandcorrect;
     long int numint;
-    const char listofconvert[4][12] = {"Ottale","Binario","Decimale","Esadecimale"};
-    printf("Benvenuto in Ultimate Converter V1.4\nScegli la base del numero iniziale:\n[1]Ottale\n[2]Binario\n[3]Decimale\n[4]Esadecimale\n");
-    scanf("%d",&firstbase);
-    printf("Scegli la base in cui covertire il numero:\n");
-    for (int i=1; i<5; i++) {if (i!=firstbase) {printf("[%d]%s\n", i, listofconvert[(i-1)]);}}
-    scanf("%d",&secondbase);
-    switch(firstbase) {
-        case 1:
-            printf("Insersci il numero in ottale: ");
-            scanf("%ld",&numint);
-            break;
-        case 2:
-            printf("Insersci il numero in binario (massimo 999 cifre): ");
-            scanf("%s",&numchar);
-            break;
-        case 3:
-            printf("Inserisci un numero intero: ");
-            scanf("%ld",&numint);
-            break;
-        case 4:
-            printf("Inserisci il numero in esadecimale: ");
-            scanf("%s",&numchar);
-            break;
-    }
-    if (firstbase==1) {
-        switch(secondbase) {
-            case 2:
+    while (go) {
+        char numchar[1000];
+        memset(numchar,0,1000);
+        system("cls");
+        printf("Benvenuto in Ultimate Converter V2.0\nScegli la base del numero iniziale:\n[1]Ottale\n[2]Binario\n[3]Decimale\n[4]Esadecimale\n");
+        scanf("%d",&firstbase);
+        switch(firstbase) {
+            case 1:
+                printf("Insersci il numero in ottale: ");
+                scanf("%ld",&numint);
                 octaltobin(numint,numchar);
-                printf("Result= ");
+                printf("Binario= ");
                 for (int i=0;i<strlen(numchar);i++) printf("%c",numchar[i]);
-                break;
-            case 3:
-                printf("Result= %d",octtoint(numint));
-                break;
-            case 4:
-                octaltobin(numint,numchar);
+                printf("\nDecimale= %d\n",octtoint(numint));
                 binadd(numchar,4);
                 bintoesa(numchar);
-                printf("Result= ");
+                printf("Esadecimale= ");
                 for (int i=0;i<strlen(numchar);i++) printf("%c",numchar[i]);
-                break;    
-        }
-    }
-    else if (firstbase==2) {
-        switch(secondbase) {
-            case 1:
+                break;
+            case 2:
+                printf("Insersci il numero in binario (massimo 999 cifre): ");
+                scanf("%s",&numchar);
                 binadd(numchar,3);
-                printf("Result= %d", bintooctal(numchar));
-                break;
-            case 3:
-                printf("Result= %d",bintoint(numchar));
-                break;
-            case 4:
+                printf("Ottale= %d\n",bintooctal(numchar));
+                printf("Decimale= %d\n",bintoint(numchar));
                 binadd(numchar,4);
                 bintoesa(numchar);
-                printf("Result= ");
+                printf("Esadecimale= ");
                 for (int i=0;i<strlen(numchar);i++) printf("%c",numchar[i]);
-                break;    
-        }
-    }
-    else if (firstbase==3) {
-        switch(secondbase) {
-            case 1:
-                printf("Result= %d",inttooct(numint));
                 break;
-            case 2:
+            case 3:
+                printf("Inserisci un numero intero: ");
+                scanf("%ld",&numint);
+                printf("Ottale= %d\n",inttooct(numint));
                 inttobin(numint,numchar);
-                printf("Result= ");
+                printf("Binario= ");
+                for (int i=0;i<strlen(numchar);i++) printf("%c",numchar[i]);
+                memset(numchar,0,1000);
+                inttoesa(numint,numchar);
+                printf("\nEsadecimale= ");
                 for (int i=0;i<strlen(numchar);i++) printf("%c",numchar[i]);
                 break;
             case 4:
-                inttoesa(numint,numchar);
-                printf("Result= ");
+                printf("Inserisci il numero in esadecimale: ");
+                scanf("%s",&numchar);
+                esatobin(numchar);
+                printf("Ottale= %d\n",bintooctal(numchar));
+                printf("Binario= ");
                 for (int i=0;i<strlen(numchar);i++) printf("%c",numchar[i]);
-                break;    
-        }
-    }
-    else if (firstbase==4) {
-        switch(secondbase) {
-            case 1:
-                esatobin(numchar);
-                binadd(numchar,3);
-                printf("Result= %d", bintooctal(numchar));
+                printf("\nDecimale= %d",bintoint(numchar));
                 break;
-            case 2:
-                esatobin(numchar);
-                printf("Result= ");
-                for (int i=0;i<(strlen(numchar));i++) printf("%c",numchar[i]);
+            default:
+                printf("Comando non corretto, riprovare.\n");
+                system("pause");
                 break;
-            case 3:
-                printf("Result= %d",esatoint(numchar));
-                break;        
         }
+        printf("\nVuoi ripetere il programma?\n[1]Si'\n[2]No\n");
+        scanf("%d",&comandcorrect);
+        if (comandcorrect!=1) go=0;
     }
 }
