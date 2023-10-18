@@ -53,7 +53,6 @@ void octaltobin(int numint, char *numchar) {
             numchar[i]=octalconvert[temp][i];
         }
         numint=numint/10;
-        printf("%d %d\n", temp, numint);
         if (numint>0) {
             for (int i=strlen(numchar); i>=0; i--) {
                 numchar[(i+3)]=numchar[i];
